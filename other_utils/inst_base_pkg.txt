@@ -1,0 +1,8 @@
+
+apt-get install vim ipset gawk build-essential automake autoconf iotop apt-file firmware-realtek firmware-linux-nonfree fuse mc ncdu nmap nslint ntp ntpdate p7zip-full parted pigz psutils psmisc pwgen rsync dump subversion swaks sudo tcpdump tmpreaper unzip unrar wget curl xrdp xvfb xz-utils zip fail2ban ntfs-3g screen pv git
+
+apt-get install bind9 isc-dhcp-server dnsutils etherwake apt-file firmware-realtek firmware-linux-nonfree fuse mc ncdu nmap nslint ntp ntpdate nut-server nut-client p7zip-full parted pigz psutils psmisc pwgen rsync dump subversion swaks sudo tcpdump tmpreaper unzip unrar wget curl xrdp xvfb xz-utils zip squid3 fail2ban ntfs-3g screen pv
+
+mount --bind /dev /tmp/vda/dev
+mount --bind /proc /tmp/vda/proc 
+mount --bind /sys /tmp/vda/sys 
