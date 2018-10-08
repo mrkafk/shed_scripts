@@ -40,7 +40,7 @@ trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
 info "Starting backup"
 
-
+set -x
 borg create                         \
     --verbose                       \
     --filter AME                    \
@@ -57,6 +57,7 @@ borg create                         \
     $(echo "$BACKUP_DIRS" | tr -s ' ' '\n')
 
 backup_exit=$?
+set +x
 
 info "Pruning repository"
 
