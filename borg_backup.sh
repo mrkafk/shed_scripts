@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG=/etc/borg_config.sh
+CONFIG=/etc/local/borg_config.sh
 
 if [ ! -f "$CONFIG" ]; then
     echo "Configuration file $CONFIG is missing. Set following env variables in that script:"
