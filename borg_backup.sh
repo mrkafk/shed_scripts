@@ -30,6 +30,10 @@ if [ -z "$BACKUP_DIRS" ]; then
     exit 1
 fi
 
+export BORG_REPO="$BORG_REPO"
+export BORG_PASSPHRASE="$BORG_PASSPHRASE"
+export BACKUP_DIRS="$BACKUP_DIRS"
+
 # some helpers and error handling:
 info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
 trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
@@ -49,7 +53,7 @@ borg create                         \
     --exclude '/var/cache/*'        \
     --exclude '/var/tmp/*'          \
     ::'{hostname}-{now}'            \
-    $(echo "$BACKUP_DIRS")
+    $(echo "$BACKUP_DIRS" | tr -s ' ' '\n')
 
 backup_exit=$?
 
