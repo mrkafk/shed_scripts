@@ -50,7 +50,7 @@ borg create                         \
     --exclude '/var/tmp/*'          \
                                     \
     ::'{hostname}-{now}'            \
-    $(cat "$BACKUP_DIRS")
+    $(echo "$BACKUP_DIRS")
 
 backup_exit=$?
 
