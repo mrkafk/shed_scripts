@@ -48,7 +48,6 @@ borg create                         \
     --exclude '/home/*/.cache/*'    \
     --exclude '/var/cache/*'        \
     --exclude '/var/tmp/*'          \
-                                    \
     ::'{hostname}-{now}'            \
     $(echo "$BACKUP_DIRS")
 
