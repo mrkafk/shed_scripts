@@ -52,7 +52,7 @@ borg create                         \
     --exclude '/home/*/.cache/*'    \
     --exclude '/var/cache/*'        \
     --exclude '/var/tmp/*'          \
-    $(echo "$EXCLUDE" | tr -s ' ' '\n' | while read x; do if [ -n "$x" ]; then echo "--exclude $x   \\"; fi; done)
+    $(echo "$EXCLUDE" | tr -s ' ' '\n' | while read x; do if [ -n "$x" ]; then echo "--exclude '"'$x'"'"; fi; done)
     ::'{hostname}-{now}'            \
     $(echo "$BACKUP_DIRS" | tr -s ' ' '\n')
 
