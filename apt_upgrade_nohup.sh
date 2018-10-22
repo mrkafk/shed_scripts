@@ -16,5 +16,5 @@ cd "$SCRIPTDIR"
 
 nohup ./apt_upgrade_exec.sh confirm &>/dev/null
 
-
+cat /tmp/apt_upgr.txt
 
