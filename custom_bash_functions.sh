@@ -27,6 +27,26 @@ function va () {
 	rm -f "$TMP2"
 }
 
+function vwhich () {
+	TMP1=/tmp/$$.1
+	TMP2=/tmp/$$.2
+	which -a "$1" | sort | uniq > "$TMP1"
+	if [ $(cat "$TMP1" | wc -l | awk '{print $1}') -eq 1 ]; then
+		realpath $(cat "$TMP1")
+		sleep 1
+		vi $(cat "$TMP1")
+	else
+		which -a "$1" | sort | uniq | awk '{print NR " " $0 ;}' > "$TMP1"
+		whiptail --clear --menu "Select one of the files to edit:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1")  2>"$TMP2"
+		NUM=$(cat $TMP2)
+		FPATH=$(sed "${NUM}q;d" "$TMP1" | awk '{print $2;}')
+		echo "$FPATH"
+		sleep 1
+		vi "$FPATH"
+	fi
+	rm -f "$TMP1"
+}
+
 # Select hostfile for hss
 function hs () {
     BASEDIR=/usr/local/etc
