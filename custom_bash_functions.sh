@@ -53,9 +53,9 @@ function hs () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
 	if [ -d /usr/local/etc ]; then
-		find /usr/local/etc -name "*.hostfile" -printf "%f\n" | sort | awk '{print NR " " $0;}' | sort > "$TMP1"
+		find /usr/local/etc -name "*.hostfile" -printf "%f\n" | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
 	else
-		find ./ -name "*.hostfile" -printf "%f\n" | sort | awk '{print NR " " $0;}' | sort > "$TMP1"
+		find ./ -name "*.hostfile" -printf "%f\n" | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
 	fi
 	if [ -f ~/.config/shed_scripts/hs.last ]; then
 		whiptail --clear --default-item $(cat ~/.config/shed_scripts/hs.last) --menu "Select hss hostfile:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1") 2> "$TMP2"
