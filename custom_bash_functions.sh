@@ -122,3 +122,7 @@ function remove_PATH_dups () {
 	fi
 }
 
+function au {
+	apt-get update
+	apt-get upgrade
+}
