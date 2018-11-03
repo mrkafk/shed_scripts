@@ -126,3 +126,10 @@ function au {
 	apt-get update
 	apt-get upgrade
 }
+
+function lvpath {
+	set -x
+	lvdisplay  | grep 'LV Path'
+	set +x
+}
+
