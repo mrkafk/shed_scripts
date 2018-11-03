@@ -30,17 +30,14 @@ fi
 PARENT_COMMAND=$(ps -wwwwo cmd  -q $PPID | egrep -v '^CMD')
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
-  echo "# Added $VARNAME=$VALUE automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
+  echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
 fi
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
   echo "${VARNAME}=" >> "$FILENAME"
 fi
 
-VARVAL="$VARNAME=$VALUE"
-VMD5=$(echo "$VARVAL" | md5sum | awk '{print $1;}')
-
 set -x
-sed -i "s/#.*$VMD5.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND # Do not delete: $VMD5/g" "$FILENAME"
+sed -i "s/# Updated $VARNAME automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
 sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
 set +x
