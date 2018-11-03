@@ -27,7 +27,7 @@ if [ ! -f "$FILENAME" ]; then
   exit 1
 fi
 
-PARENT_COMMAND=$(ps -wwwwwo comm= $PPID)
+PARENT_COMMAND=$(ps -wwwwo cmd  -q $PPID | egrep -v '^CMD')
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
   echo "# Added $VARNAME=$VALUE automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
