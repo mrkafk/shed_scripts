@@ -166,3 +166,26 @@ function lvpath {
 	set +x
 }
 
+function crs () {
+	if [ -z "$1" ];then
+		echo "Specify path to script. Exit."
+		return 1
+	fi
+	if [ -s "$1" ]; then
+		echo "File $1 exists. Exit."
+		return 1
+	fi
+cat <<EOF >"$1"
+#!/bin/bash
+
+SOURCE="\${BASH_SOURCE[0]}"
+while [ -h "\$SOURCE" ]; do # resolve \$SOURCE until the file is no longer a symlink
+  DIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
+  SOURCE="\$(readlink "\$SOURCE")"
+  [[ \$SOURCE != /* ]] && SOURCE="\$DIR/\$SOURCE" # if \$SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+SCRIPTDIR="\$( cd -P "\$( dirname "$SOURCE" )" && pwd )"
+
+EOF
+}
+
