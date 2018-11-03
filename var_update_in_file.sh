@@ -37,7 +37,10 @@ if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
   echo "${VARNAME}=" >> "$FILENAME"
 fi
 
+VARVAL="$VARNAME=$VALUE"
+VMD5=$(echo "$VARVAL" | md5sum | awk '{print $1;}')
+
 set -x
-sed -i "s/# (Added|Updated) automatically $VARNAME.*on.*by command.*/# Updated $VARNAME automatically on $(date) by command: $PARENT_COMMAND/g" "$FILENAME"
+sed -i "s/#.*$VARVAL/# Updated $VARNAME automatically on $(date) by command: $PARENT_COMMAND # Do not delete: $VMD5/g" "$FILENAME"
 sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
 set +x
