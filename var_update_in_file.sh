@@ -28,7 +28,7 @@ if [ ! -f "$FILENAME" ]; then
 fi
 
 PARENT_COMMAND=$(ps -wwwwo cmd  -q $PPID | egrep -v '^CMD')
-PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\/|g')
+PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g')
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
   echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
