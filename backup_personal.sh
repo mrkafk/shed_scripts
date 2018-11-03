@@ -16,13 +16,14 @@ cat >$TMPF <<EOF
 /etc
 EOF
 
+
 cd /home/username
 
 sudo tar cf ${FNAME}.tar $(cat $TMPF) --exclude=/home/username/bin/.svn --exclude=/home/username/bin/data --exclude=/home/username/bin/KeePass
 
 sudo chown username:users ${FNAME}.tar
 
-echo 
+echo
 read -s -p "Type passphrase: " PASS
 
 if [ -z "$PASS" ]; then
