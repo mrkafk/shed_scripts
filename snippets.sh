@@ -21,3 +21,11 @@ testn () {
 	fi
 }
 
+function date_hm () {
+  date +'%m_%d_%Y-%H_%M'
+}
+
+function date_mdy () {
+  date +'%m_%d_%Y'
+}
+
