@@ -27,7 +27,7 @@ if [ ! -f "$FILENAME" ]; then
   exit 1
 fi
 
-PARENT_COMMAND=$(ps -wwwwo cmd  -q $PPID | egrep -v '^CMD')
+PARENT_COMMAND=$(get_parent_cmd)
 PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g')
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
