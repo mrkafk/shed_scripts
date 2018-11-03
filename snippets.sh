@@ -11,7 +11,12 @@ SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 testn () {
 	if [ -z "$1" ]; then
-		echo "Param $2 empty. Aborting"
+		echo "Param $2 empty. Exit."
+		if [ -n "$3" ]; then
+			echo
+			echo "Required arguments:"
+			echo "    $3"
+		fi
 		exit 1
 	fi
 }
