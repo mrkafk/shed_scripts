@@ -38,6 +38,6 @@ if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
 fi
 
 set -x
-sed -i "s/# (Added|Updated) $VARNAME.*on.*by command.*/# Updated $VARNAME automatically on $(date) by command: $PARENT_COMMAND/g" "$FILENAME"
+sed -i "s/# (Added|Updated) automatically $VARNAME.*on.*by command.*/# Updated $VARNAME automatically on $(date) by command: $PARENT_COMMAND/g" "$FILENAME"
 sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
 set +x
