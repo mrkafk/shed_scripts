@@ -44,3 +44,4 @@ sed -i "s/#\s*Updated\s*$VARNAME.*automatically on.*/# Updated $VARNAME automati
 set -x
 sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
 set +x
+
