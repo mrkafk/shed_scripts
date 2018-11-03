@@ -36,7 +36,7 @@ function date_dmy () {
 # Portable way of getting full command path of $PPID - unfortunately on older systems 'ps -wwwwo cmd  -q $PPID' complains about 'Unsupported SysV option'
 function get_parent_cmd () {
 	PARENT_CMD=$(ps ax -o pid,cmd  $PPID | egrep "\s*${PPID}" | grep -v "ps ax -o pid,cmd" | grep -v grep | sed -e 's/^\s*[0-9]* //g')
-	return PARENT_CMD
+	echo "$PARENT_CMD"
 }
 
 
