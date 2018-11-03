@@ -12,7 +12,6 @@ SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 testn () {
 	if [ -z "$1" ]; then
 		echo "Param $2 empty. Aborting"
-		echo "Usage: $0 NAME MAC TYPE"
 		exit 1
 	fi
 }
