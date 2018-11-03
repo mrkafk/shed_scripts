@@ -166,6 +166,7 @@ function lvpath {
 	set +x
 }
 
+# create template script
 function crs () {
 	if [ -z "$1" ];then
 		echo "Specify path to script. Exit."
@@ -187,5 +188,9 @@ done
 SCRIPTDIR="\$( cd -P "\$( dirname "$SOURCE" )" && pwd )"
 
 EOF
+chmod +x "$1"
+echo -n "Generated "
+realpath "$1"
+vi "$1" +10
 }
 
