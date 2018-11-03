@@ -75,7 +75,6 @@ function hs () {
 
 
 function vs () {
-    BASEDIR=/usr/local/etc
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
 	virsh list --all --name | egrep -v '^$'  | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
@@ -92,7 +91,6 @@ function vs () {
 }
 
 function vsh () {
-    BASEDIR=/usr/local/etc
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
 	virsh list --name | egrep -v '^$'  | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
