@@ -31,6 +31,8 @@ PARENT_COMMAND=$(ps -o comm= $PPID)
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
   echo "# Added $VARNAME=$VALUE automatically on $(date) by command: $PARENT_COMMAND" >> "$FILENAME"
+else
+  sed -i "s/# Added $VARNAME.*on.*by command.*/# Updated $VARNAME automatically on $(date) by command: $PARENT_COMMAND/g" "$FILENAME"
 fi
 
 if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
@@ -38,6 +40,6 @@ if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
 fi
 
 set -x
-sed -i "s/# Added $VARNAME.*on.*by command.*/# Updated automatically on $(date) by command: $PARENT_COMMAND/g" "$FILENAME"
+
 sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
 set +x
