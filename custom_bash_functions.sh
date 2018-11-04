@@ -1,11 +1,13 @@
 #!/bin/bash
 
+# Change directory with first chars of path components
 function cx ()
 {
             cd `/usr/local/bin/xd \$*`
 }
 
-function whichc ()
+# Directory of program in PATH
+function whichd ()
 {
 	W=$(which "$1")
 	D=$(dirname "$W")
@@ -27,6 +29,7 @@ function va () {
 	rm -f "$TMP2"
 }
 
+# Open program in PATH with vi
 function vwhich () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
@@ -47,7 +50,7 @@ function vwhich () {
 	rm -f "$TMP1"
 }
 
-# Select hostfile for hss
+# Select hostfile for hss (dialog)
 function hs () {
     BASEDIR=/usr/local/etc
 	TMP1=/tmp/$$.1
@@ -73,7 +76,7 @@ function hs () {
     fi
 }
 
-
+# Start VM (dialog)
 function vs () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
@@ -90,6 +93,7 @@ function vs () {
     rm -f "$TMP2"
 }
 
+# Shutdown VM (dialog)
 function vsh () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
@@ -106,6 +110,13 @@ function vsh () {
     rm -f "$TMP2"
 }
 
+# Search apt-file for exact binary
+function afb () {
+    apt-file search "$1" | egrep "/${1}$" | sort
+}
+
+
+# Absolute path of a file
 function abspath() {
 	old=`pwd`;new=$(dirname "$1");
 	if [ "$new" != "." ]; then
@@ -116,28 +127,28 @@ function abspath() {
 	echo $file
 }
 
+# Exact binary locate (/name$)
 function elocate() {
 	locate -i "$1" | egrep "/$1\$"
 }
 
+# Shortcut for find . -type f -name name
 function f() {
 	find . -type f -name "$1"
 }
 
+# Shortcut for find . -type f -name "*name*"
 function fa() {
 	find . -type f -name "*${1}*"
 }
 
-function fullpath () {
-	echo "$(pwd)/$1"
-}
 
+# Source ~/.bash_profile
 function sbp () {
 	echo "Sourcing ~/.bash_profile in current shell."
 	source ~/.bash_profile
 }
 
-# Remove duplicates in PATH
 function remove_PATH_dups () {
 	if [ -n "$PATH" ]; then
 	old_PATH=$PATH:; PATH=
@@ -155,18 +166,13 @@ function remove_PATH_dups () {
 	fi
 }
 
+# apt-get update; apt-get upgrade
 function au {
 	apt-get update
 	apt-get upgrade
 }
 
-function lvpath {
-	set -x
-	lvdisplay  | grep 'LV Path'
-	set +x
-}
-
-# create template script
+# Create minimum script from template
 function crs () {
 	if [ -z "$1" ];then
 		echo "Specify path to script. Exit."

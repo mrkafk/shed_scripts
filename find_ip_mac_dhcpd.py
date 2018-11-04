@@ -23,17 +23,17 @@
 import re
 import sys
 
+
 def find_ip_mac(hname, fname):
     with open(fname) as fo:
         cnt = ''.join(fo.readlines())
         re_s = r"%s.+\{[^\}]+hardware\s+ethernet\s+([\w\:]+)[^\}]+fixed-address\s+([\d\.]+)" % hname
-        #re_s = r"%s.+\{([^\}]+?)\}" % hname
-        a=re.search(re_s, cnt, re.MULTILINE)
-        if a:
-            print a.group(1), a.group(2)
-        
+        # re_s = r"%s.+\{([^\}]+?)\}" % hname
+        addr = re.search(re_s, cnt, re.MULTILINE)
+        if addr:
+            print addr.group(1), addr.group(2)
+
 
 if __name__ == "__main__":
     hname = sys.argv[1]
     find_ip_mac(hname, '/etc/dhcp/dhcpd.conf')
-    

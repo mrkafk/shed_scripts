@@ -1,0 +1,88 @@
+#!/usr/bin/env python2
+
+# Copyright (c) 2010 Marcin Krol <mrkafk@gmail.com>.  All rights reserved.
+
+# Permission to use, copy, modify, and distribute this software and its
+# documentation for any purpose and without fee is hereby granted,
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in
+# supporting documentation.
+
+# MARCIN KROL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+# INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+# IN NO EVENT SHALL MARCIN KROL BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+# This software is licensed under MIT License:
+# http://opensource.org/licenses/mit-license.php
+
+
+import re
+import sys
+import os
+
+bash_function_files = ['/usr/local/shed_scripts/custom_bash_functions.sh', '~/.bash_profile']
+regexes = ['#.+$\nfunction\s+.+[\(\{].*[\)\}]']
+
+no_desc_regexes = ['function\s+.+[\(\{].*[\)\}]']
+
+
+def uniq_sort(lst):
+    lst = list(set(lst))
+    lst.sort()
+    return lst
+
+
+def get_func_name(s):
+    desc = s.strip().replace('function', '').replace('{', '').replace('}', '').replace('(', '').replace(')', '').strip()
+    return desc
+
+
+def get_desc_fun(match):
+    lines = match.split('\n')
+    desc = lines[0].strip().lstrip('#').strip()
+    fun_name = get_func_name(lines[1])
+    desc, fun_name = desc.strip(), fun_name.strip()
+    return fun_name, desc
+
+def remove_desc_dupes(nodescs, descs):
+    lst = []
+    for nodesc in nodescs:
+        flag = True
+        for line in descs:
+            if line.startswith(nodesc):
+                flag = False
+                break
+        if flag:
+            lst.append(nodesc)
+    return lst
+
+def fundescs(ffiles):
+    items = []
+    nodescs = []
+    ffiles = [os.path.expanduser(x) for x in ffiles]
+    for ffile in ffiles:
+        with open(ffile) as fo:
+            cnt = fo.read()
+            for regex in regexes:
+                items.extend([x for x in re.findall(regex, cnt, re.MULTILINE)])
+            for nodesc_regex in no_desc_regexes:
+                nodescs.extend([get_func_name(x) for x in re.findall(nodesc_regex, cnt, re.MULTILINE)])
+    items = list(filter(None, items))
+    items = [get_desc_fun(x) for x in items]
+    items = uniq_sort(items)
+    items_printout = ['{} - {}'.format(*x) for x in items]
+    nodescs = remove_desc_dupes(list(filter(None, nodescs)), items_printout)
+    nodescs.sort()
+    print('Functions with no descriptions:')
+    print('\n'.join(nodescs))
+    print('####################')
+    print('\n'.join(items_printout))
+
+# TODO justify descriptions
+
+if __name__ == "__main__":
+    fundescs(bash_function_files)
