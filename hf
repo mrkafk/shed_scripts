@@ -74,7 +74,7 @@ def fundescs(ffiles):
     items = list(filter(None, items))
     items = [get_desc_fun(x) for x in items]
     items = uniq_sort(items)
-    items_printout = ['{} - {}'.format(*x) for x in items]
+    items_printout = ['{:15} {}'.format(*x) for x in items]
     nodescs = remove_desc_dupes(list(filter(None, nodescs)), items_printout)
     nodescs.sort()
     print('Functions with no descriptions:')
