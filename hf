@@ -48,6 +48,7 @@ def get_desc_fun(match):
     desc, fun_name = desc.strip(), fun_name.strip()
     return fun_name, desc
 
+
 def remove_desc_dupes(nodescs, descs):
     lst = []
     for nodesc in nodescs:
@@ -59,6 +60,7 @@ def remove_desc_dupes(nodescs, descs):
         if flag:
             lst.append(nodesc)
     return lst
+
 
 def fundescs(ffiles):
     items = []
@@ -77,12 +79,13 @@ def fundescs(ffiles):
     items_printout = ['{:15} {}'.format(*x) for x in items]
     nodescs = remove_desc_dupes(list(filter(None, nodescs)), items_printout)
     nodescs.sort()
-    print('Functions with no descriptions:')
+    print('\nFunctions with no descriptions:')
     print('\n'.join(nodescs))
-    print('####################')
+    print('\nFunctions with descriptions (in comment placed in preceding line):')
     print('\n'.join(items_printout))
+    print('\n')
+
 
 # TODO justify descriptions
-
 if __name__ == "__main__":
     fundescs(bash_function_files)
