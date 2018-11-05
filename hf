@@ -24,7 +24,8 @@ import re
 import sys
 import os
 
-bash_function_files = ['/usr/local/shed_scripts/custom_bash_functions.sh', '~/.bash_profile']
+bash_function_files = ['/usr/local/shed_scripts/custom_bash_functions.sh', '~/.bash_profile', '~/projects/shed/snippets.sh']
+
 regexes = ['#.+$\nfunction\s+.+[\(\{].*[\)\}]']
 
 no_desc_regexes = ['function\s+.+[\(\{].*[\)\}]']
