@@ -9,6 +9,7 @@ fi
 
 BASE=$BASE
 
+set -x
 mkdir -p $BASE/"$NEWUSER"
 chown root:root $BASE/"$NEWUSER"
 
