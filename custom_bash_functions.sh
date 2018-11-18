@@ -111,7 +111,7 @@ function vsh () {
 }
 
 # VM console (dialog)
-function vs () {
+function vc () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
 	virsh list --all --name | egrep -v '^$'  | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
