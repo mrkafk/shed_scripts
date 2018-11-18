@@ -200,3 +200,9 @@ realpath "$1"
 vi "$1" +10
 }
 
+
+# howdoi shortcut
+function hdi() {
+	howdoi $* -c -n 5;
+}
+
