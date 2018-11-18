@@ -110,6 +110,23 @@ function vsh () {
     rm -f "$TMP2"
 }
 
+# VM console (dialog)
+function vs () {
+	TMP1=/tmp/$$.1
+	TMP2=/tmp/$$.2
+	virsh list --all --name | egrep -v '^$'  | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
+	dialog --clear --menu "Select VM console:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1") 2> "$TMP2"
+    NUM=$(cat "$TMP2")
+    if [ -n "$NUM" ]; then
+        VM=$(sed "${NUM}q;d" "$TMP1" | awk '{print $2;}')
+        rm -f "$TMP1"
+        rm -f "$TMP2"
+        virsh console "$VM"
+    fi
+    rm -f "$TMP1"
+    rm -f "$TMP2"
+}
+
 # Search apt-file for exact binary
 function afb () {
     apt-file search "$1" | egrep "/${1}$" | sort
