@@ -254,10 +254,9 @@ function uncomment_line () {
 # Print a file without lines beginning with #, squeeze multiple newlines
 function nocomment () {
 	if [ -z "$1" ]; then
+		echo "Print a file without lines beginning with #, squeeze multiple newlines."
 		echo "Specify file as first arg"
 		return
 	fi
-	set -x
 	egrep -v '^\s*#' "$1" | tr -s '\n'
-	set +x
 }
