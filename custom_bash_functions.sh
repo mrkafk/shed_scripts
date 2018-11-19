@@ -250,3 +250,13 @@ function uncomment_line () {
 	UNCOMMENT="$1"
 	sed -i "s/^\s*#\s*\($UNCOMMENT\)/\1/g" "$2"
 }
+
+function nocomment () {
+	if [ -z "$1" ]; then
+		echo "Specify file as first arg"
+		return
+	fi
+	set -x
+	egrep -v '^\s*#' "$1" | tr -s '\n'
+	set +x
+}
