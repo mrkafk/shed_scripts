@@ -19,15 +19,37 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-group_users "$1" >"$TMPF"
+MIGR_GROUP="$1"
+
+group_users "$MIGR_GROUP" >"$TMPF"
 
 echo "Users to be migrated:"
 cat "$TMPF"
 echo
 
-mkdir -p "$MIGR"
-cat "$TMPF" | while read x; do
+# TODO remove
+rm -rf "$MIGR"/*
 
+mkdir -p "$MIGR"
+cd "$MIGR"
+
+cp "$TMPF" "users.txt"
+
+touch passwd_migrate
+touch shadow_migrate
+
+truncate -s 0 passwd_migrate
+truncate -s 0 shadow_migrate
+
+cat <<EOF >>"migrate_script.sh"
+  groupadd "$MIGR_GROUP"
+
+EOF
+
+
+cat "$TMPF" | while read UNAME; do
+  egrep "^${UNAME}:" /etc/passwd >> passwd_migrate
+  egrep "^${UNAME}:" /etc/shadow >> shadow_migrate
 done
 
 rm -f "$TMPF"
