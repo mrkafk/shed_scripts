@@ -223,3 +223,12 @@ function hdi() {
 	howdoi $* -c -n 5;
 }
 
+# ps wide, with first ps line
+function psw {
+	if [ -z "$1" ]; then
+		echo "Specify name to find in processes"
+		exit 1
+	fi
+	ps auxwww  | head -n 1
+	ps auxwwww | grep "$1" | grep -v grep
+}
