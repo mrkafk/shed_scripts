@@ -224,7 +224,7 @@ function hdi() {
 }
 
 # ps wide, with first ps line
-function psw {
+function psw() {
 	if [ -z "$1" ]; then
 		echo "Specify name to find in processes"
 		exit 1
