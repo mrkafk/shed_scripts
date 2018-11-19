@@ -232,3 +232,21 @@ function psw() {
 	ps auxwww  | head -n 1
 	ps auxwwww | grep "$1" | grep -v grep
 }
+
+# In a file, uncomment lines beginning with '#' followed by the specified word ('#' being the comment character)
+function uncomment_line () {
+	if [ -z "$1" ]; then
+		echo "Specify word to search for as first arg"
+		return
+	fi
+	if [ -z "$2" ]; then
+		echo "Specify file path as second arg"
+		return
+	fi
+	if [ ! -f "$2" ]; then
+		echo "File $2 not found"
+		return
+	fi
+	UNCOMMENT="$1"
+	sed -i "s/^\s*#\s*\($UNCOMMENT\)/\1/g" "$2"
+}
