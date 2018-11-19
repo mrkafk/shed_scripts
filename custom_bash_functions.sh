@@ -251,6 +251,7 @@ function uncomment_line () {
 	sed -i "s/^\s*#\s*\($UNCOMMENT\)/\1/g" "$2"
 }
 
+# Print a file without lines beginning with #, squeeze multiple newlines
 function nocomment () {
 	if [ -z "$1" ]; then
 		echo "Specify file as first arg"
