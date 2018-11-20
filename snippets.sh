@@ -39,18 +39,6 @@ function get_parent_cmd () {
 	echo "$PARENT_CMD"
 }
 
-# List users belonging to the group.
-function group_users () {
-	if [ -z "$1" ]; then
-		echo "Specify group name as first argument."
-		exit 1
-	fi
-
-	getent passwd | sort | while IFS=: read name trash
-	do
-			groups $name 2>/dev/null | cut -f2 -d: | grep -i -q -w "$1" && echo $name
-	done
-}
 
 
 
