@@ -20,6 +20,8 @@
 # http://opensource.org/licenses/mit-license.php
 
 
+import shlex
+import subprocess
 import re
 import sys
 import os
@@ -85,8 +87,23 @@ def fundescs(ffiles):
     print('\nFunctions with descriptions (in comment placed in preceding line):')
     print('\n'.join(items_printout))
     print('\n')
+    print('Specify function name as first argument to see full function definition.')
+    print('\n')
+
+
+def run_cmd_popen(cmd_args):
+    if isinstance(cmd_args, basestring):
+        cmd_args = shlex.split(cmd_args)
+    p = subprocess.Popen(cmd_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+    output, stderr = p.communicate()
+    return output, stderr
 
 
 # TODO justify descriptions
 if __name__ == "__main__":
+    fun_name = len(sys.argv) > 1 and sys.argv[1]
+    if fun_name:
+        out, _ = run_cmd_popen("""bash -l -c 'declare -f -p {}'""".format(fun_name))
+        print(out)
+        sys.exit(0)
     fundescs(bash_function_files)
