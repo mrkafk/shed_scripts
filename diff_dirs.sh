@@ -22,7 +22,7 @@ fi
 
 export LC_ALL=C
 
-diff -q -r "$1" "$2" | awk '{print $2, $4;}' | while read x; do
+diff -q -r "$1" "$2" | grep -v 'Only in' | awk '{print $2, $4;}' | while read x; do
   LEFT=$(echo "$x" | awk '{print $1;}')
   RIGHT=$(echo "$x" | awk '{print $2;}')
   echo "#### $LEFT <=> $RIGHT ####"
