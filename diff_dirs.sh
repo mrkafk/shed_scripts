@@ -26,6 +26,6 @@ diff -q -r "$1" "$2" | grep -v 'Only in' | awk '{print $2, $4;}' | while read x;
   LEFT=$(echo "$x" | awk '{print $1;}')
   RIGHT=$(echo "$x" | awk '{print $2;}')
   echo "#### $LEFT <=> $RIGHT ####"
-  diff "$LEFT" "$RIGHT" | egrep -v "^\s*#" | tr -s '\n'
+  diff "$LEFT" "$RIGHT" | egrep -v "^\s*#" | grep -v "< #" | grep -v "> #" | tr -s '\n'
   echo
 done
