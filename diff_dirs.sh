@@ -20,12 +20,18 @@ if [ -z "$1" ] || [ -z "$2" ];then
   exit 1
 fi
 
+TMPF1="/tmp/$$.tmpf1"
+TMPF2="/tmp/$$.tmpf2"
+
+
 export LC_ALL=C
 
 diff -q -r "$1" "$2" | grep -v 'Only in' | awk '{print $2, $4;}' | while read x; do
   LEFT=$(echo "$x" | awk '{print $1;}')
   RIGHT=$(echo "$x" | awk '{print $2;}')
   echo "#### $LEFT <=> $RIGHT ####"
-  diff "$LEFT" "$RIGHT" | egrep -v "^\s*#" | egrep -v '[\<\>]\s*#' | tr -s '\n'
+  cat "$LEFT" | egrep -v "^\s*#" | tr -s '\n' > "$TMPF1"
+  cat "$RIGHT" | egrep -v "^\s*#" | tr -s '\n' > "$TMPF2"
+  diff "$TMPF1" "$TMPF2"
   echo
 done
