@@ -20,7 +20,7 @@ function va () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
 	find . -name activate | grep -w 'bin/activate' | awk '{print NR " " $0 ;}' > "$TMP1"
-	if [ -s "$TMP1" ]; then
+	if [ ! -s "$TMP1" ]; then
 		echo "No Python virtual environments found."
 		return
 	fi
