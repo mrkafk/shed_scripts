@@ -255,6 +255,24 @@ function uncomment_line () {
 	sed -i "s/^\s*#\s*\($UNCOMMENT\)/\1/g" "$2"
 }
 
+# In a file, comment lines beginning with '#' followed by the specified word ('#' being the comment character)
+function comment_line () {
+	if [ -z "$1" ]; then
+		echo "Specify word to search for as first arg"
+		return
+	fi
+	if [ -z "$2" ]; then
+		echo "Specify file path as second arg"
+		return
+	fi
+	if [ ! -f "$2" ]; then
+		echo "File $2 not found"
+		return
+	fi
+	STR="$1"
+	sed -i "s/^\s*\($STR\)/#\1/g" "$2"
+}
+
 # Print a file without lines beginning with #, squeeze multiple newlines
 function nocomment () {
 	if [ -z "$1" ]; then
