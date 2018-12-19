@@ -215,7 +215,7 @@ done
 SCRIPTDIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
 
 EOF
-chmod +x "$1"
+chmod 700 "$1"
 echo -n "Generated "
 realpath "$1"
 vi "$1" +10
