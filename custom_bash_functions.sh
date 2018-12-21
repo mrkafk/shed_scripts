@@ -102,7 +102,7 @@ function vsh () {
 	TMP1=/tmp/$$.1
 	TMP2=/tmp/$$.2
 	virsh list --name | egrep -v '^$'  | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
-	dialog --clear --menu "Select VM to START:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1") 2> "$TMP2"
+	dialog --clear --menu "Select VM to SHUT DOWN:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1") 2> "$TMP2"
     NUM=$(cat "$TMP2")
     if [ -n "$NUM" ]; then
         VM=$(sed "${NUM}q;d" "$TMP1" | awk '{print $2;}')
