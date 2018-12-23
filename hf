@@ -70,12 +70,15 @@ def fundescs(ffiles):
     nodescs = []
     ffiles = [os.path.expanduser(x) for x in ffiles]
     for ffile in ffiles:
-        with open(ffile) as fo:
-            cnt = fo.read()
-            for regex in regexes:
-                items.extend([x for x in re.findall(regex, cnt, re.MULTILINE)])
-            for nodesc_regex in no_desc_regexes:
-                nodescs.extend([get_func_name(x) for x in re.findall(nodesc_regex, cnt, re.MULTILINE)])
+        try:
+            with open(ffile) as fo:
+                cnt = fo.read()
+                for regex in regexes:
+                    items.extend([x for x in re.findall(regex, cnt, re.MULTILINE)])
+                for nodesc_regex in no_desc_regexes:
+                    nodescs.extend([get_func_name(x) for x in re.findall(nodesc_regex, cnt, re.MULTILINE)])
+        except IOError:
+            pass
     items = list(filter(None, items))
     items = [get_desc_fun(x) for x in items]
     items = uniq_sort(items)
