@@ -54,32 +54,6 @@ function vwhich () {
 	rm -f "$TMP1"
 }
 
-# Select hostfile for hss (dialog)
-function hs () {
-    BASEDIR=/usr/local/etc
-	TMP1=/tmp/$$.1
-	TMP2=/tmp/$$.2
-	if [ -d /usr/local/etc ]; then
-		find /usr/local/etc -name "*.hostfile" -printf "%f\n" | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
-	else
-		find ./ -name "*.hostfile" -printf "%f\n" | sort | awk '{print NR " " $0;}' | sort -n > "$TMP1"
-	fi
-	if [ -f ~/.config/shed_scripts/hs.last ]; then
-		whiptail --clear --default-item $(cat ~/.config/shed_scripts/hs.last) --menu "Select hss hostfile:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1") 2> "$TMP2"
-	else
-		whiptail --clear --menu "Select hss hostfile:" 24 70 $(wc -l "$TMP1" | cut -d " " -f 1)  $(cat "$TMP1") 2> "$TMP2"
-	fi
-    NUM=$(cat "$TMP2")
-    if [ -n "$NUM" ]; then
-		shed_config_mkdirp.sh
-		echo "$NUM" > ~/.config/shed_scripts/hs.last
-        HOSTFILE=$(sed "${NUM}q;d" "$TMP1" | awk '{print $2;}')
-        rm -f "$TMP1"
-        rm -f "$TMP2"
-        hss -c '-C -x' -f "$BASEDIR/$HOSTFILE"
-    fi
-}
-
 # Start VM (dialog)
 function vs () {
 	TMP1=/tmp/$$.1
