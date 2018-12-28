@@ -8,13 +8,11 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+TMPF="/tmp/tmpf_${SCRIPTNAME}.$$"
 
-"$SCRIPTDIR"/detect_faulty_md.py
-if [ $? -ne 0 ]; then
-	TMP=/tmp/$$.txt
-	cat /proc/mdstat > $TMP
-	echo >> $TMP
-	echo "Disk serial numbers:" >> $TMP
-	"$SCRIPTDIR"/disk_serial_no.sh >> $TMP
-	rm -f $TMP
-fi
+mdadm --query --detail /dev/md{0..9} 2>/dev/null | egrep '^/dev' | sed 's|:||' | while read x; do
+	mdadm --query --detail "$x" | egrep -w '\s*State\s*:' | sed -E 's/State\s*:\s*clean(.*)/\1/' > "$TMPF"
+	mdadm --query --detail "$x" | egrep 'degraded|faulty' >> "$TMPF"
+	STATUS=$(cat "$TMPF")
+done
+
