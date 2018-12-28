@@ -188,6 +188,8 @@ while [ -h "\$SOURCE" ]; do # resolve \$SOURCE until the file is no longer a sym
 done
 SCRIPTDIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
 
+SCRIPTNAME=\$(basename "\$0")
+
 EOF
 chmod 700 "$1"
 echo -n "Generated "
