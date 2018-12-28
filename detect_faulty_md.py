@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import logging
 import sys
 
 s = """
@@ -12,13 +13,14 @@ md2 : active raid1 sda1[0] sdb1[1]
 
 """
 
-import logging
 logging.basicConfig()
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
+
 def get_inner(e):
     return e.strip('[').strip(']').split('/')
+
 
 def detect_faulty_md(s):
     lines = s.split('\n')
@@ -36,7 +38,7 @@ def detect_faulty_md(s):
             num = map(int, get_inner(e1))
             if num[0] != num[1]:
                 log.info('Fault elem: %s', elems)
-                fault=True
+                fault = True
                 break
     return fault
 
