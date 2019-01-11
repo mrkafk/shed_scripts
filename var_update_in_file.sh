@@ -33,7 +33,7 @@ PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g')
 
 VALUE=$(echo "$VALUE" | sed 's|/|\\/|g')
 
-if [ "$NOEQSIGN" == '--no-equal-sign' ]; then
+if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
 
   if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
     echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
