@@ -13,6 +13,7 @@ SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 FILENAME="$1"
 VARNAME="$2"
 VALUE="$3"
+NOEQSIGN="$4"
 
 testn "$FILENAME" FILENAME "FILENAME VARNAME VALUE"
 testn "$VARNAME" VARNAME "FILENAME VARNAME VALUE"
@@ -32,18 +33,38 @@ PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g')
 
 VALUE=$(echo "$VALUE" | sed 's|/|\\/|g')
 
-if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
-  echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
+if [ "$NOEQSIGN" == '--no-equal-sign' ]; then
+
+  if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
+    echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
+  fi
+
+  if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
+    echo "${VARNAME}" >> "$FILENAME"
+  fi
+
+  sed -i "s/#\s*Added\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
+  sed -i "s/#\s*Updated\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
+
+  set -x
+  sed -i "s/^\s*$VARNAME.*/$VARNAME    $VALUE/g" "$FILENAME"
+  set +x
+
+else
+
+  if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
+    echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
+  fi
+
+  if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
+    echo "${VARNAME}=" >> "$FILENAME"
+  fi
+
+  sed -i "s/#\s*Added\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
+  sed -i "s/#\s*Updated\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
+
+  set -x
+  sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
+  set +x
+
 fi
-
-if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
-  echo "${VARNAME}=" >> "$FILENAME"
-fi
-
-sed -i "s/#\s*Added\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
-sed -i "s/#\s*Updated\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
-
-set -x
-sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
-set +x
-
