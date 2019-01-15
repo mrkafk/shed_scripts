@@ -29,9 +29,10 @@ if [ ! -f "$FILENAME" ]; then
 fi
 
 PARENT_COMMAND=$(get_parent_cmd)
-PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g')
+PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 
-VALUE=$(echo "$VALUE" | sed 's|/|\\/|g')
+VALUE=$(echo "$VALUE" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
+VARNAME=$(echo "$VARNAME" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 
 if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
 
@@ -42,9 +43,6 @@ if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
   if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
     echo "${VARNAME}" >> "$FILENAME"
   fi
-
-  sed -i "s/#\s*Added\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
-  sed -i "s/#\s*Updated\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
 
   set -x
   sed -i "s/^\s*$VARNAME.*/$VARNAME    $VALUE/g" "$FILENAME"
@@ -60,8 +58,7 @@ else
     echo "${VARNAME}=" >> "$FILENAME"
   fi
 
-  sed -i "s/#\s*Added\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
-  sed -i "s/#\s*Updated\s*$VARNAME.*automatically on.*/# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND/g" "$FILENAME"
+  echo "VARNAME ###${VARNAME}###"
 
   set -x
   sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
