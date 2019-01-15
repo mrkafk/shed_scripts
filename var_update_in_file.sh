@@ -29,6 +29,7 @@ if [ ! -f "$FILENAME" ]; then
 fi
 
 PARENT_COMMAND=$(get_parent_cmd)
+ORIG_PARENT_COMMAND="$PARENT_COMMAND"
 PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 
 ORIG_VARNAME="$VARNAME"
@@ -39,7 +40,7 @@ VARNAME=$(echo "$VARNAME" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
 
   if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
-    echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
+    echo "# Updated $VARNAME automatically on $(date_hm) by command: $ORIG_PARENT_COMMAND" >> "$FILENAME"
   fi
 
   if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
@@ -53,7 +54,7 @@ if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
 else
 
   if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
-    echo "# Updated $VARNAME automatically on $(date_hm) by command: $PARENT_COMMAND" >> "$FILENAME"
+    echo "# Updated $VARNAME automatically on $(date_hm) by command: $ORIG_PARENT_COMMAND" >> "$FILENAME"
   fi
 
   if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
