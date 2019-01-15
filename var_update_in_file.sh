@@ -43,7 +43,7 @@ if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
   fi
 
   if [ -z "$(egrep "^\s*${VARNAME}" $FILENAME)" ]; then
-    echo "${VARNAME}" >> "$FILENAME"
+    echo "${ORIG_VARNAME}" >> "$FILENAME"
   fi
 
   set -x
@@ -57,7 +57,7 @@ else
   fi
 
   if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
-    echo "${VARNAME}=" >> "$FILENAME"
+    echo "${ORIG_VARNAME}=" >> "$FILENAME"
   fi
 
   echo "VARNAME ###${VARNAME}###"
