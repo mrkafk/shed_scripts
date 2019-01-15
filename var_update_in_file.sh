@@ -31,6 +31,8 @@ fi
 PARENT_COMMAND=$(get_parent_cmd)
 PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 
+ORIG_VARNAME="$VARNAME"
+
 VALUE=$(echo "$VALUE" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 VARNAME=$(echo "$VARNAME" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 
@@ -45,7 +47,7 @@ if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
   fi
 
   set -x
-  sed -i "s/^\s*$VARNAME.*/$VARNAME    $VALUE/g" "$FILENAME"
+  sed -i "s/^\s*$VARNAME.*/$ORIG_VARNAME    $VALUE/g" "$FILENAME"
   set +x
 
 else
@@ -61,7 +63,7 @@ else
   echo "VARNAME ###${VARNAME}###"
 
   set -x
-  sed -i "s/^\s*$VARNAME=.*/$VARNAME=$VALUE/g" "$FILENAME"
+  sed -i "s/^\s*$VARNAME=.*/$ORIG_VARNAME=$VALUE/g" "$FILENAME"
   set +x
 
 fi
