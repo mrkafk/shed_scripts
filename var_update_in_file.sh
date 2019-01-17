@@ -53,18 +53,18 @@ if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
 
 else
 
-  if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
+  if [ -z "$(egrep "^\s*${VARNAME}\s*=\s*" $FILENAME)" ]; then
     echo "# Updated $VARNAME automatically on $(date_hm) by command: $ORIG_PARENT_COMMAND" >> "$FILENAME"
   fi
 
-  if [ -z "$(egrep "^\s*${VARNAME}=" $FILENAME)" ]; then
+  if [ -z "$(egrep "^\s*${VARNAME}\s*=\s*" $FILENAME)" ]; then
     echo "${ORIG_VARNAME}=" >> "$FILENAME"
   fi
 
   echo "VARNAME ###${VARNAME}###"
 
   set -x
-  sed -i "s/^\s*$VARNAME=.*/$ORIG_VARNAME=$VALUE/g" "$FILENAME"
+  sed -i "s/^\s*${VARNAME}\s*=.*/$ORIG_VARNAME=$VALUE/g" "$FILENAME"
   set +x
 
 fi
