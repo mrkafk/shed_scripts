@@ -34,8 +34,14 @@ PARENT_COMMAND=$(echo "$PARENT_COMMAND" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 
 ORIG_VARNAME="$VARNAME"
 
-VALUE=$(echo "$VALUE" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
+# VALUE=$(echo "$VALUE" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
 VARNAME=$(echo "$VARNAME" | sed 's|/|\\/|g' | sed 's|\$|\\$|g')
+
+UUID=$(uuidgen)
+if [ -z "$UUID" ]; then
+    apt -y install uuid-runtime
+    UUID=$(uuidgen)
+fi
 
 if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
 
@@ -48,7 +54,8 @@ if [ "$NOEQSIGN" == "--no-equal-sign" ]; then
   fi
 
   set -x
-  sed -i "s/^\s*$VARNAME.*/$ORIG_VARNAME    $VALUE/g" "$FILENAME"
+  sed -i "s/^\s*$VARNAME.*/$ORIG_VARNAME    $UUID/g" "$FILENAME"
+  sed -i "s|$UUID|$VALUE|" "$FILENAME"
   set +x
 
 else
@@ -64,7 +71,8 @@ else
   echo "VARNAME ###${VARNAME}###"
 
   set -x
-  sed -i "s/^\s*${VARNAME}\s*=.*/$ORIG_VARNAME=$VALUE/g" "$FILENAME"
+  sed -i "s/^\s*${VARNAME}\s*=.*/$ORIG_VARNAME=$UUID/g" "$FILENAME"
+  sed -i "s|$UUID|$VALUE|" "$FILENAME"
   set +x
 
 fi
