@@ -258,3 +258,9 @@ function nocomment () {
 	fi
 	egrep -v '^\s*#' "$1" | tr -s '\n'
 }
+
+# Grep history for a fixed string
+function hgr () {
+    history | fgrep "$1"
+}
+
