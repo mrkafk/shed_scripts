@@ -161,11 +161,6 @@ function remove_PATH_dups () {
 	fi
 }
 
-# apt-get update; apt-get upgrade
-function au {
-	apt-get update
-	apt-get upgrade
-}
 
 # Create minimum script from template
 function crs () {
