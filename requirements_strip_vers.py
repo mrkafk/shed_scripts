@@ -43,7 +43,7 @@ def write_reqs_nover():
     outfname = 'requirements_nover.txt'
     with open(outfname, 'w') as fo:
         fo.write('\n'.join(vers))
-    print('Wrote output to', outfname, file=sys.stderr)
+    print('Wrote requirements without versions to', outfname, file=sys.stderr)
 
 if __name__ == '__main__':
     write_reqs_nover()
