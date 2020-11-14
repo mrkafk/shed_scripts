@@ -263,3 +263,8 @@ function hgr () {
     history | fgrep "$1"
 }
 
+# crontab -e
+function ce () {
+    crontab -e
+}
+
