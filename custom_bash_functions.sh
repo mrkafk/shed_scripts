@@ -182,7 +182,8 @@ while [ -h "\$SOURCE" ]; do # resolve \$SOURCE until the file is no longer a sym
   [[ \$SOURCE != /* ]] && SOURCE="\$DIR/\$SOURCE" # if \$SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 
-export PATH=\$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/shed:/usr/local/shed/other_utils:/usr/local/shed_scripts
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/shed:/usr/local/shed_scripts:/bin:/usr/bin:/usr/games:/usr/local/bin:/usr/local/python37/bin:/usr/local/python38/bin:/usr/local/shed:/usr/local/shed_scripts
+
 
 
 SCRIPTDIR="\$( cd -P "\$( dirname "\$SOURCE" )" && pwd )"
